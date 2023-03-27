@@ -2,7 +2,15 @@
 # 二為清單建立
 # 寫入檔案
 # 加入欄位名稱
+# 加入可讀取檔案及split切割功能
+# continue 跳到下一迴的意思，但必須在迴圈內才能作用，不會跳出迴圈
 products = []
+with open('products.csv', 'r', encoding='utf-8') as f:
+    for line in f:
+        if '品名,價格' in line:
+            continue # 繼續，不會跳出迴圈
+        name, price = line.strip().split(',') # split 切割的意思,分行之類的,如例子遇','換行
+        products.append([name, price])
 while True:
     name = input('輸入品名: ')
     if name == 'q':
