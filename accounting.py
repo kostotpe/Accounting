@@ -1,3 +1,4 @@
+# 把所有程式碼改成function 專有名詞叫做 refactor 重構
 # 建立記帳程式
 # 二為清單建立
 # 寫入檔案
@@ -5,22 +6,18 @@
 # 加入可讀取檔案及split切割功能
 # continue 跳到下一迴的意思，但必須在迴圈內才能作用，不會跳出迴圈
 # 檢查檔案在不在
+# function內部最好只執行一件事，不要過於複雜。
 import os #operating system
 
 #讀取檔案
 def read_file(filename):
     products = []
-    if os.path.isfile(filename): #檢查檔案室否在電腦裡
-        print('有')
-        with open(filename, 'r', encoding='utf-8') as f:
-            for line in f:
-                if '品名,價格' in line:
-                    continue # 繼續，不會跳出迴圈
-                name, price = line.strip().split(',') # split 切割的意思,分行之類的,如例子遇','換行
-                products.append([name, price])
-        print(products)
-    else:
-        print('找不到檔案')
+    with open(filename, 'r', encoding='utf-8') as f:
+        for line in f:
+            if '品名,價格' in line:
+                continue # 繼續，不會跳出迴圈
+            name, price = line.strip().split(',') # split 切割的意思,分行之類的,如例子遇','換行
+            products.append([name, price])
     return products
 
 # 讓使用者輸入
@@ -52,10 +49,20 @@ def write_file(filename, products):
         for p in products:
             f.write(p[0] + ',' + p[1] + '\n') # 有','excel才會不同格 \n生成後會自動換行
 
-products = read_file('products.csv')
-products = user_input(products)
-print_products(products)
-write_file('products.csv', products)
+#檢查檔案在不在 & 主要執行程式main function寫法
+def main(): # 寫程式常用寫法main function 來裝主要執行程式碼
+    filename = 'products.csv'
+    if os.path.isfile(filename):
+        print('有')
+        products = read_file(filename)
+    else:
+        print('找不到檔案')
+
+    products = user_input(products)
+    print_products(products)
+    write_file('products.csv', products)
+
+main()
 
 # # 練習寫入檔案
 # data = [1, 3, 5, 7, 9]
